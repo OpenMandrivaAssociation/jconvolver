@@ -11,8 +11,8 @@ Source:         http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{versio
 URL:            http://www.kokkinizita.net/linuxaudio/
 License:        GPLv2
 Group:          Sound
-BuildRequires:  libclthreads-devel, libzita-convolver-devel
-BuildRequires:  fftw3-devel, libsndfile-devel, libjack-devel
+BuildRequires:  clthreads-devel, libzita-convolver-devel
+BuildRequires:  fftw3-devel, sndfile-devel, libjack-devel
 Suggests:       jconvolver-reverbs
 
 %description
