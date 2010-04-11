@@ -1,5 +1,5 @@
 %define name            jconvolver
-%define version         0.8.4
+%define version         0.8.7
 %define release         %mkrel 1
 
 Name:           %{name}
@@ -17,15 +17,14 @@ Suggests:       jconvolver-reverbs
 
 %description
 Jconvolver is a Convolution Engine for JACK using FFT-based partitioned 
-convolution with 
-multiple partition sizes. It is mainly used to create realistic acoustic
-environments such as reverbs for sounds sent to its input. Jconvolver 
-uses a configurable 
-smallest partition size at the start of the impulse response, and longer 
-ones further on. This it allows long impulse responses along with minimal 
-or even zero delay at a reasonable CPU load. It is recommended to install
-also jcgui, a graphical user interface for JConvolver as well as the
-example reverb data jconvolver-reverbs.
+convolution with multiple partition sizes. It is mainly used to create 
+realistic acoustic environments such as reverbs for sounds sent to its 
+input. Jconvolver uses a configurable smallest partition size at the 
+start of the impulse response, and longer ones further on. This 
+allows long impulse responses along with minimal or even zero delay at 
+a reasonable CPU load. It is recommended to install also jcgui, a 
+graphical user interface for JConvolver as well as the example reverb 
+data jconvolver-reverbs.
 
 %prep 
 %setup -q
