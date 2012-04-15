@@ -1,10 +1,10 @@
 %define name            jconvolver
-%define version         0.8.7
-%define release         %mkrel 2
+%define version         0.9.2
+%define release         1
 
 Name:           %{name}
 Summary:        Audio convolution engine for JACK
-Version:        %{version} 
+Version:        %{version}
 Release:        %{release}
 
 Source:         http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{version}.tar.bz2
@@ -12,28 +12,28 @@ URL:            http://www.kokkinizita.net/linuxaudio/
 License:        GPLv2
 Group:          Sound
 BuildRequires:  clthreads-devel, libzita-convolver-devel
-BuildRequires:  fftw3-devel, sndfile-devel, libjack-devel
+BuildRequires:  fftw3-devel, sndfile-devel, jackit-devel
 Suggests:       jconvolver-reverbs
 
 %description
-Jconvolver is a Convolution Engine for JACK using FFT-based partitioned 
-convolution with multiple partition sizes. It is mainly used to create 
-realistic acoustic environments such as reverbs for sounds sent to its 
-input. Jconvolver uses a configurable smallest partition size at the 
-start of the impulse response, and longer ones further on. This 
-allows long impulse responses along with minimal or even zero delay at 
-a reasonable CPU load. It is recommended to install also jcgui, a 
-graphical user interface for JConvolver as well as the example reverb 
+Jconvolver is a Convolution Engine for JACK using FFT-based partitioned
+convolution with multiple partition sizes. It is mainly used to create
+realistic acoustic environments such as reverbs for sounds sent to its
+input. Jconvolver uses a configurable smallest partition size at the
+start of the impulse response, and longer ones further on. This
+allows long impulse responses along with minimal or even zero delay at
+a reasonable CPU load. It is recommended to install also jcgui, a
+graphical user interface for JConvolver as well as the example reverb
 data jconvolver-reverbs.
 
-%prep 
+%prep
 %setup -q
 cd source
 perl -pi -e 's/PREFIX =/#PREFIX =/g' Makefile
 
 %build
 cd source
-make 
+make
 
 %install
 rm -rf %{buildroot}
@@ -42,6 +42,7 @@ cp -a config-files %{buildroot}/%{_datadir}/%{name}
 cd source
 install -d %{buildroot}/%{_bindir}
 PREFIX=%{buildroot}%{_prefix} make install
+chmod 644 %{buildroot}%{_datadir}/%{name}/config-files/ambisonic/super-stereo.conf
 
 %clean
 rm -rf %{buildroot}
