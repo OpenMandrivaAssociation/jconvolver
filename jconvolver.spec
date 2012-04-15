@@ -30,6 +30,7 @@ data jconvolver-reverbs.
 %setup -q
 cd source
 perl -pi -e 's/PREFIX =/#PREFIX =/g' Makefile
+perl -pi -e 's/-march=native//g' Makefile
 
 %build
 cd source
