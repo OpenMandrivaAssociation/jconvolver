@@ -52,3 +52,26 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/*
 %{_datadir}/%{name}
+
+
+%changelog
+* Sun Apr 15 2012 Frank Kober <emuse@mandriva.org> 0.9.2-1
++ Revision: 791128
+- kill march CPP flag
+- update to new version 0.9.2
+
+* Mon Dec 06 2010 Oden Eriksson <oeriksson@mandriva.com> 0.8.7-2mdv2011.0
++ Revision: 612441
+- the mass rebuild of 2010.1 packages
+
+* Sun Apr 11 2010 Frank Kober <emuse@mandriva.org> 0.8.7-1mdv2010.1
++ Revision: 533597
+- new version
+- new version
+
+* Tue Mar 02 2010 Frank Kober <emuse@mandriva.org> 0.8.4-1mdv2010.1
++ Revision: 513719
+- import jconvolver
+- import jconvolver
+
+
