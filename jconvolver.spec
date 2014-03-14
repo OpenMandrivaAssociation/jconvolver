@@ -1,6 +1,7 @@
 %define name            jconvolver
 %define version         0.9.2
 %define release         1
+%define debug_package	%{nil}
 
 Name:           %{name}
 Summary:        Audio convolution engine for JACK
