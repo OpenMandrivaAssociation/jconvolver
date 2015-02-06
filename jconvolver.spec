@@ -1,6 +1,6 @@
 %define name            jconvolver
 %define version         0.9.2
-%define release         1
+%define release         2
 %define debug_package	%{nil}
 
 Name:           %{name}
