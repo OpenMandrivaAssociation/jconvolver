@@ -9,7 +9,7 @@ Version:        %{version}
 Release:        %{release}
 
 Source:         http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{version}.tar.bz2
-URL:            http://www.kokkinizita.net/linuxaudio/
+URL:            https://www.kokkinizita.net/linuxaudio/
 License:        GPLv2
 Group:          Sound
 BuildRequires:  clthreads-devel
