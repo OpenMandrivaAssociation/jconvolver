@@ -1,81 +1,62 @@
-%define name            jconvolver
-%define version         0.9.2
-%define release         2
-%define debug_package	%{nil}
+%global	debug_package	%{nil}
 
-Name:           %{name}
-Summary:        Audio convolution engine for JACK
-Version:        %{version}
-Release:        %{release}
-
-Source:         http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{version}.tar.bz2
-URL:            https://www.kokkinizita.net/linuxaudio/
-License:        GPLv2
-Group:          Sound
-BuildRequires:  clthreads-devel
-BuildRequires:	libzita-convolver-devel
-BuildRequires:	fftw3-devel
-BuildRequires:	sndfile-devel
-BuildRequires:	jackit-devel
-Suggests:       jconvolver-reverbs
+Summary:	Audio convolution engine for JACK
+Name:	 jconvolver
+Version:	1.1.0
+Release:	1
+License:	GPLv2+
+Group:	Sound
+Url:	https://www.kokkinizita.net/linuxaudio/
+Source0:	http://www.kokkinizita.net/linuxaudio/downloads/%{name}-%{version}.tar.bz2
+Source100:	jconvolver.rpmlintrc
+Patch0:	jconvolver-1.1.0-fix-makefile.patch
+Patch1:	jconvolver-1.1.0-workaround-for-pipewire.patch
+Patch2:	jconvolver-1.1.0-get-ldflags-from-jack-pkgconfig-file.patch
+BuildRequires:	clthreads-devel
+BuildRequires:	libzita-convolver-devel >=  4.0.0
+BuildRequires:	pkgconfig(fftw3)
+BuildRequires:	pkgconfig(jack)
+BuildRequires:	pkgconfig(sndfile)
+# Missing
+Suggests:	jconvolver-reverbs
 
 %description
-Jconvolver is a Convolution Engine for JACK using FFT-based partitioned
-convolution with multiple partition sizes. It is mainly used to create
-realistic acoustic environments such as reverbs for sounds sent to its
-input. Jconvolver uses a configurable smallest partition size at the
-start of the impulse response, and longer ones further on. This
-allows long impulse responses along with minimal or even zero delay at
-a reasonable CPU load. It is recommended to install also jcgui, a
-graphical user interface for JConvolver as well as the example reverb
-data jconvolver-reverbs.
-
-%prep
-%setup -q
-cd source
-perl -pi -e 's/PREFIX =/#PREFIX =/g' Makefile
-perl -pi -e 's/-march=native//g' Makefile
-
-%build
-cd source
-make
-
-%install
-rm -rf %{buildroot}
-install -d %{buildroot}/%{_datadir}/%{name}
-cp -a config-files %{buildroot}/%{_datadir}/%{name}
-cd source
-install -d %{buildroot}/%{_bindir}
-PREFIX=%{buildroot}%{_prefix} make install
-chmod 644 %{buildroot}%{_datadir}/%{name}/config-files/ambisonic/super-stereo.conf
-
-%clean
-rm -rf %{buildroot}
+Jconvolver is a real-time convolution engine. It can execute up to a 64 by 64
+convolution matrix (i.e. 4096 simultaneous convolutions) as long as your CPU
+can handle the load. It is designed to be efficient also for sparse (e.g.
+diagonal) matrices. Unused matrix elements do not take any CPY time.
 
 %files
-%defattr(-,root,root,-)
-%{_bindir}/*
-%{_datadir}/%{name}
+%license COPYING
+%doc README.CONFIG
+%{_bindir}/fconvolver
+%{_bindir}/%{name}
+%{_bindir}/makemulti
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/*
+
+#-----------------------------------------------------------------------------
+
+%prep
+%autosetup -p1
+
+# Fix paths in configuration files
+pushd config-files
+	find . -name \*.conf \
+		-exec sed -i -e "s|/audio/reverbs|%{_datadir}/%{name}/reverbs|g" {} \; \
+		-exec sed -i -e "s|^#/cd |/cd |g" {} \;
+popd
 
 
-%changelog
-* Sun Apr 15 2012 Frank Kober <emuse@mandriva.org> 0.9.2-1
-+ Revision: 791128
-- kill march CPP flag
-- update to new version 0.9.2
-
-* Mon Dec 06 2010 Oden Eriksson <oeriksson@mandriva.com> 0.8.7-2mdv2011.0
-+ Revision: 612441
-- the mass rebuild of 2010.1 packages
-
-* Sun Apr 11 2010 Frank Kober <emuse@mandriva.org> 0.8.7-1mdv2010.1
-+ Revision: 533597
-- new version
-- new version
-
-* Tue Mar 02 2010 Frank Kober <emuse@mandriva.org> 0.8.4-1mdv2010.1
-+ Revision: 513719
-- import jconvolver
-- import jconvolver
+%build
+pushd source
+	%make_build
+popd
 
 
+%install
+%make_install PREFIX=%{_prefix} -C source
+
+# Install configuration files and demo reverbs
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -a config-files/* %{buildroot}%{_datadir}/%{name}

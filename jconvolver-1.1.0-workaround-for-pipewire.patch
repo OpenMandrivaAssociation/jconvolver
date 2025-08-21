@@ -1,0 +1,38 @@
+diff -rupN jconvolver-1.1.0.old/source/jclient.cc jconvolver-1.1.0/source/jclient.cc
+--- jconvolver-1.1.0.old/source/jclient.cc	2020-04-11 13:50:48.000000000 +0200
++++ jconvolver-1.1.0/source/jclient.cc	2025-08-19 16:51:59.481405662 +0200
+@@ -97,12 +97,6 @@ void Jclient::init_jack (const char *jna
+     jack_set_buffer_size_callback (_jack_client, jack_static_buffsize, (void *) this);
+     jack_set_process_callback (_jack_client, jack_static_process, (void *) this);
+ 
+-    if (jack_activate (_jack_client))
+-    {
+-        fprintf(stderr, "Can't activate JACK.\n");
+-        exit (1);
+-    }
+-
+     _jname = jack_get_client_name (_jack_client);
+     _fsamp = jack_get_sample_rate (_jack_client);
+     _fragm = jack_get_buffer_size (_jack_client);
+@@ -116,6 +110,12 @@ void Jclient::init_jack (const char *jna
+ 	fprintf (stderr, "Fragment size is too large\n");
+ 	exit (0);
+     }
++    
++    if (jack_activate (_jack_client))
++	{
++		fprintf(stderr, "Can't activate JACK.\n");
++		exit (1);
++	}
+ 
+     pthread_getschedparam (jack_client_thread_id (_jack_client), &_policy, &spar);
+     _abspri = spar.sched_priority;
+@@ -153,7 +153,7 @@ int Jclient::jack_static_buffsize (jack_
+ {
+     Jclient *C = (Jclient *) arg;
+ 
+-    if (C->_fragm)
++    if (C->_fragm != nframes)
+     {
+         C->stop ();
+         C->_flags = FL_BUFF;

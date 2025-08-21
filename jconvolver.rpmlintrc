@@ -1,0 +1,5 @@
+# Too lazy to update a lot of files for an useless error 
+addFilter("E: incorrect-fsf-address")
+
+# Usptream does not provide man pages and we cannot change this
+addFilter("W: no-manual-page-for-binary")

@@ -1,0 +1,13 @@
+diff -rupN jconvolver-1.1.0.old/source/Makefile jconvolver-1.1.0/source/Makefile
+--- jconvolver-1.1.0.old/source/Makefile	2021-06-29 10:43:51.000000000 +0200
++++ jconvolver-1.1.0/source/Makefile	2025-08-19 15:23:59.675538818 +0200
+@@ -24,8 +24,8 @@ BINDIR ?= $(PREFIX)/bin
+ 
+ VERSION = 1.1.0
+ CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\"
++CPPFLAGS += -ffast-math -funroll-loops
+ CXXFLAGS += -O2 -Wall
+-CXXFLAGS += -march=native
+ 
+ 
+ all:	jconvolver fconvolver makemulti

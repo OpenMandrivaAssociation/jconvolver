@@ -1,0 +1,12 @@
+diff -rupN jconvolver-1.1.0.old/source/Makefile jconvolver-1.1.0/source/Makefile
+--- jconvolver-1.1.0.old/source/Makefile	2025-08-19 15:23:59.675538818 +0200
++++ jconvolver-1.1.0/source/Makefile	2025-08-19 16:54:16.052174389 +0200
+@@ -32,7 +32,7 @@ all:	jconvolver fconvolver makemulti
+ 
+ 
+ JCONVOLVER_O =	jconvolver.o config.o jconfig.o audiofile.o dither.o sstring.o jclient.o
+-jconvolver:	LDLIBS += -lzita-convolver -lfftw3f -lsndfile -lclthreads -ljack -lpthread -lrt
++jconvolver:	LDLIBS += -lzita-convolver -lfftw3f -lsndfile -lclthreads `pkg-config --libs jack` -lpthread -lrt
+ jconvolver:	$(JCONVOLVER_O)
+ 	$(CXX) $(LDFLAGS) -o $@ $(JCONVOLVER_O) $(LDLIBS)
+ $(JCONVOLVER_O):
